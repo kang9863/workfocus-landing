@@ -1,1 +1,4 @@
 *.log
+backend/.venv/
+backend/*.sqlite3
+backend/__pycache__/
