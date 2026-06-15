@@ -1,6 +1,26 @@
 # WorkFocus Demo
 
-Interactive WorkFocus prototype with a static GitHub Pages frontend and a small local FastAPI backend.
+Interactive WorkFocus prototype with a static GitHub Pages frontend and a small FastAPI backend.
+
+## Live URLs
+
+Frontend:
+
+```text
+https://kang9863.github.io/workfocus-landing/
+```
+
+Backend:
+
+```text
+https://workfocus-api.onrender.com
+```
+
+Backend API docs:
+
+```text
+https://workfocus-api.onrender.com/docs
+```
 
 ## Source
 
@@ -29,7 +49,19 @@ http://localhost:8088
 
 ## Backend
 
-Run the local API:
+Production API is deployed on Render Free:
+
+```text
+https://workfocus-api.onrender.com
+```
+
+Health check:
+
+```text
+https://workfocus-api.onrender.com/api/health
+```
+
+Run the API locally:
 
 ```powershell
 cd backend
@@ -44,9 +76,27 @@ API docs:
 http://localhost:8000/docs
 ```
 
+## How to Use
+
+1. Open the frontend:
+
+```text
+https://kang9863.github.io/workfocus-landing/
+```
+
+2. Open backend docs when testing API calls:
+
+```text
+https://workfocus-api.onrender.com/docs
+```
+
+3. Use the API endpoints from the docs to create sessions, events, meetings, searches, and todos.
+
+4. If the backend is slow on the first request, wait a bit and refresh. Render Free services can sleep when inactive.
+
 ## Deployment
 
-The frontend is ready for static hosting services such as GitHub Pages or Vercel. The backend needs a Python server such as Render, Railway, Fly.io, or a VPS.
+The frontend is deployed with GitHub Pages. The backend is deployed with Render Free using `render.yaml`.
 
 ### GitHub Pages
 
@@ -60,3 +110,33 @@ The frontend is ready for static hosting services such as GitHub Pages or Vercel
 1. Import this GitHub repository in Vercel.
 2. Keep the default static site settings.
 3. Deploy.
+
+### Render Backend
+
+The backend is managed by the root `render.yaml`.
+
+```yaml
+services:
+  - type: web
+    name: workfocus-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+```
+
+Pushing to `main` triggers Render sync/deploy.
+
+## Update Workflow
+
+```powershell
+git add .
+git commit -m "Update WorkFocus demo"
+git push
+```
+
+After pushing:
+
+- GitHub Pages updates the frontend.
+- Render updates the backend if files under `backend/` or `render.yaml` changed.
